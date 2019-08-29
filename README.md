@@ -1,7 +1,7 @@
 This is a project I am using to coincide with a series of Medium blog posts "Getting Started with Mapbox GL JS". Feel free to check out the first article here, https://medium.com/swlh/getting-started-with-react-and-mapbox-gl-js-daa96477dd2c. I also have the following series linked in the article.
 
-![](images/GP.pdf)
-![](images/NYC.pdf)
+![](images/GP.png)
+![](images/NYC.png)
 
 
 Purpose:

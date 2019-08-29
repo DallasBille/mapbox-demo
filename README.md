@@ -1,68 +1,24 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a project I am using to coincide with a series of Medium blog posts "Getting Started with Mapbox GL JS". Feel free to check out the first article here, https://medium.com/swlh/getting-started-with-react-and-mapbox-gl-js-daa96477dd2c. I also have the following series linked in the article.
 
-## Available Scripts
+![](images/GP.pdf)
+![](images/NYC.pdf)
 
-In the project directory, you can run:
 
-### `npm start`
+Purpose:
+I love maps. I love looking at them, and I had heard MapBox is amazing, allows a ton of customization and added features. It was a no brainer, I wanted to learn it. So I figured I would document my learning through blog posts, post it's coinciding project on Github for you to play around with and add to, so that you could learn MapBox too.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In it we use MapBox GL JS open source mapping software to perform some beginning tasks. Such as how to set this map up, how to set a users location on button click, how to at points onto the map.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Development:
+MapBox Demo use React and MapBox GL JS API (which requires an account and token)
 
-### `npm test`
+Feel free to download, run and make your own edits.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Go to mapbox, create and download your own token (it's free).
+2. Clone repo to local
+3. NPM install
+4. Past your token into the <ReactMapGL> tag as a value in the key mapboxApiAccessToken.
+5. NPM start to view in the browser.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+To Do's:
+Next we are going to add points from an API! Possibly adjust size and add styling.

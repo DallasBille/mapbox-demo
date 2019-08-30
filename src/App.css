@@ -32,20 +32,24 @@
   }
 }
 
-
 .map {
-    z-index: -1;
-    bottom: 0;
-    position: absolute;
+  z-index: -1;
+  bottom: 0;
+  position: absolute;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 h1 {
-    padding-top: 190px;
-    font-family: sans-serif;
-    font-size: 50px;
-    text-decoration: underline;
+  padding-top: 190px;
+  font-family: sans-serif;
+  font-size: 50px;
+  text-decoration: underline;
+}
+
+img {
+  width: 100px;
+  height: 100px;
 }

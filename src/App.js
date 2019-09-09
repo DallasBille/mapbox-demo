@@ -9,7 +9,7 @@ class App extends Component {
       height: "100vh",
       latitude: 40.7250863,
       longitude: -73.9773608,
-      zoom: 15
+      zoom: 12
     },
     wifiHotspots: [],
     userLocation: {}
@@ -23,17 +23,11 @@ class App extends Component {
     fetch("https://data.cityofnewyork.us/resource/yjub-udmw.json")
       .then(res => res.json())
       .then(hotspots => {
-        let freeWifi = this.freeWifiFilter(hotspots);
+        let freeWifi = this.filterFreeWifi(hotspots);
         this.setState({
           wifiHotspots: freeWifi
         });
       });
-  };
-
-  freeWifiFilter = allHotspots => {
-    return allHotspots.filter(spot => {
-      return spot.type === "Free";
-    });
   };
 
   setUserLocation = () => {
@@ -47,7 +41,7 @@ class App extends Component {
         width: "100vw",
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        zoom: 10
+        zoom: 13
       };
       this.setState({
         viewport: newViewport,
@@ -69,24 +63,17 @@ class App extends Component {
       );
     });
   };
-  // <img className="location-icon" src="/location-icon.svg" alt="" />
+
+  filterFreeWifi = hotspots => {
+    return hotspots.filter(spot => {
+      return spot.type === "Free";
+    });
+  }; // <img className="location-icon" src="/location-icon.svg" alt="" />
 
   render() {
     return (
       <div className="App">
-        <div>
-          Icons made by{" "}
-          <a
-            href="https://www.flaticon.com/authors/gregor-cresnar"
-            title="Gregor Cresnar"
-          >
-            Gregor Cresnar
-          </a>{" "}
-          from{" "}
-          <a href="https://www.flaticon.com/" title="Flaticon">
-            www.flaticon.com
-          </a>
-        </div>
+        <button onClick={this.setUserLocation}>My Location</button>
         <div className="map">
           <ReactMapGL
             {...this.state.viewport}
@@ -94,6 +81,16 @@ class App extends Component {
             onViewportChange={viewport => this.setState({ viewport })}
             mapboxApiAccessToken="pk.eyJ1IjoiZGFsbGFzYmlsbGUiLCJhIjoiY2p6OHR1aGhoMDZnZDNjbXB2ZWZlcXFudCJ9.gjjYkOkTtA-Qe1jhbvF2gQ"
           >
+            {Object.keys(this.state.userLocation).length !== 0 ? (
+              <Marker
+                latitude={this.state.userLocation.lat}
+                longitude={this.state.userLocation.long}
+              >
+                <img className="location-icon" src="/location-icon.svg" />
+              </Marker>
+            ) : (
+              <div></div>
+            )}
             {this.loadWifiMarkers()}
           </ReactMapGL>
         </div>

@@ -7,12 +7,33 @@ class App extends Component {
     viewport: {
       width: "100vw",
       height: "100vh",
-      latitude: 42.430472,
-      longitude: -123.334102,
-      zoom: 16
+      latitude: 40.7250863,
+      longitude: -73.9773608,
+      zoom: 15
     },
-    stations: {},
+    wifiHotspots: [],
     userLocation: {}
+  };
+
+  componentDidMount() {
+    this.fetchStationAPI();
+  }
+
+  fetchStationAPI = () => {
+    fetch("https://data.cityofnewyork.us/resource/yjub-udmw.json")
+      .then(res => res.json())
+      .then(hotspots => {
+        let freeWifi = this.freeWifiFilter(hotspots);
+        this.setState({
+          wifiHotspots: freeWifi
+        });
+      });
+  };
+
+  freeWifiFilter = allHotspots => {
+    return allHotspots.filter(spot => {
+      return spot.type === "Free";
+    });
   };
 
   setUserLocation = () => {
@@ -35,21 +56,37 @@ class App extends Component {
     });
   };
 
-  // insertMarkerComp = () => {
-  //   return (
-  //     <Marker
-  //       latitude={this.state.userLocation.latitude}
-  //       longitude={this.state.userLocation.longitude}
-  //     >
-  //       <div>MARKER</div>
-  //     </Marker>
-  //   );
-  // };
+  loadWifiMarkers = () => {
+    return this.state.wifiHotspots.map(spot => {
+      return (
+        <Marker
+          key={spot.objectid}
+          latitude={parseFloat(spot.latitude)}
+          longitude={parseFloat(spot.longitude)}
+        >
+          <img src="/wifi.svg" alt="" />
+        </Marker>
+      );
+    });
+  };
+  // <img className="location-icon" src="/location-icon.svg" alt="" />
 
   render() {
     return (
       <div className="App">
-        <button onClick={this.setUserLocation}>My Location</button>
+        <div>
+          Icons made by{" "}
+          <a
+            href="https://www.flaticon.com/authors/gregor-cresnar"
+            title="Gregor Cresnar"
+          >
+            Gregor Cresnar
+          </a>{" "}
+          from{" "}
+          <a href="https://www.flaticon.com/" title="Flaticon">
+            www.flaticon.com
+          </a>
+        </div>
         <div className="map">
           <ReactMapGL
             {...this.state.viewport}
@@ -57,16 +94,7 @@ class App extends Component {
             onViewportChange={viewport => this.setState({ viewport })}
             mapboxApiAccessToken="pk.eyJ1IjoiZGFsbGFzYmlsbGUiLCJhIjoiY2p6OHR1aGhoMDZnZDNjbXB2ZWZlcXFudCJ9.gjjYkOkTtA-Qe1jhbvF2gQ"
           >
-            {Object.keys(this.state.userLocation).length !== 0 ? (
-              <Marker
-                latitude={this.state.userLocation.lat}
-                longitude={this.state.userLocation.long}
-              >
-                <img className="location-icon" src="location-icon.svg" />
-              </Marker>
-            ) : (
-              <div></div>
-            )}
+            {this.loadWifiMarkers()}
           </ReactMapGL>
         </div>
       </div>
@@ -75,18 +103,4 @@ class App extends Component {
 }
 
 export default App;
-
-// fetchStationAPI = () => {
-//   fetch(
-//     `https://data.ny.gov/resource/nyctransitsubwayentrance-and-exit.json?`
-//   )
-//     .then(res => res.json())
-//     .then(stations => {
-//       this.setState({
-//         stations: stations
-//       });
-//     });
-// };
-// componentDidMount() {
-//   this.fetchStationAPI();
-// }
+// <div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

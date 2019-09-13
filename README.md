@@ -1,6 +1,14 @@
-## About
+## Live Site:
 
-This is a project I am using to coincide with a series of Medium blog posts "Getting Started with Mapbox GL JS". Feel free to check out the first article here, https://medium.com/swlh/getting-started-with-react-and-mapbox-gl-js-daa96477dd2c. I also have the following series linked in the article.
+https://where-fi.herokuapp.com/
+The live version is hosted on Heroku. Right now it shows all of the free public wifi hotspots in NYC
+
+## About Where-Fi
+
+It uses NYC's public wifi hotspot api to map locations to the map.
+https://data.cityofnewyork.us/resource/yjub-udmw.json
+
+What started as a blogpost series quickly turned into a tool. Where-Fi show you were free wifi locations are in five boroughs of NYC. ALmost 1000 hotspots a mapped with this project. Check out "Getting Started with Mapbox GL JS" blog post articles. Feel free to check out the first article here, https://medium.com/swlh/getting-started-with-react-and-mapbox-gl-js-daa96477dd2c. I also have the following series' linked in the article.
 
 ![](images/GP.png)
 ![](images/NYC.png)
@@ -27,7 +35,6 @@ Feel free to download, run and make your own edits.
 
 ## To Do's:
 
-1. User Location.
-2. User Location with Marker.
-3. Loading Markers from an API.
-4. Interactive Markers.
+1. Interactive Markers.
+2. More information than just wifi location.
+3. A bit more accuracy when you zoom in.

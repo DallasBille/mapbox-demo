@@ -68,7 +68,7 @@ class App extends Component {
     return hotspots.filter(spot => {
       return spot.type === "Free";
     });
-  }; // <img className="location-icon" src="/location-icon.svg" alt="" />
+  };
 
   render() {
     return (

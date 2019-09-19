@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker } from "react-map-gl";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import "./App.css";
+import ReactModal from "react-modal";
+import { thisTypeAnnotation } from "@babel/types";
 
 class App extends Component {
   state = {
@@ -12,7 +14,8 @@ class App extends Component {
       zoom: 12
     },
     wifiHotspots: [],
-    userLocation: {}
+    userLocation: {},
+    selectedHotspot: null
   };
 
   componentDidMount() {
@@ -23,11 +26,34 @@ class App extends Component {
     fetch("https://data.cityofnewyork.us/resource/yjub-udmw.json")
       .then(res => res.json())
       .then(hotspots => {
+        let indoors = this.indoorWifi(hotspots);
         let freeWifi = this.filterFreeWifi(hotspots);
+        let freeObj = this.sortType(hotspots);
+        console.log(freeObj);
         this.setState({
           wifiHotspots: freeWifi
         });
       });
+  };
+
+  sortType = hots => {
+    let obj = {};
+    hots.forEach(spot => {
+      if (!obj[spot.location_t]) {
+        obj[spot.location_t] = 1;
+      } else {
+        obj[spot.location_t] += 1;
+      }
+    });
+    return obj;
+  };
+
+  indoorWifi = hotspots => {
+    return hotspots.filter(spot => {
+      return (
+        spot.location_t !== "Outdoor Kiosk" && spot.location_t !== "Outdoor"
+      );
+    });
   };
 
   setUserLocation = () => {
@@ -58,7 +84,13 @@ class App extends Component {
           latitude={parseFloat(spot.latitude)}
           longitude={parseFloat(spot.longitude)}
         >
-          <img src="/wifilogo.svg" alt="" />
+          <img
+            onClick={() => {
+              this.setSelectedHotspot(spot);
+            }}
+            src="/wifiturqiose.svg"
+            alt=""
+          />
         </Marker>
       );
     });
@@ -70,10 +102,25 @@ class App extends Component {
     });
   };
 
+  setSelectedHotspot = object => {
+    this.setState({
+      selectedHotspot: object
+    });
+  };
+
+  closePopup = () => {
+    this.setState({
+      selectedHotspot: null
+    });
+  };
+
   render() {
     return (
       <div className="App">
         <button onClick={this.setUserLocation}>My Location</button>
+        <div className="information-modal">
+          <p>This will hold the information about the type of hotspot it is.</p>
+        </div>
         <div className="map">
           <ReactMapGL
             {...this.state.viewport}
@@ -88,10 +135,26 @@ class App extends Component {
               >
                 <img className="location-icon" src="/location-icon.svg" />
               </Marker>
-            ) : (
-              <div></div>
-            )}
+            ) : null}
             {this.loadWifiMarkers()}
+            {this.state.selectedHotspot !== null ? (
+              <Popup
+                latitude={parseFloat(this.state.selectedHotspot.latitude)}
+                longitude={parseFloat(this.state.selectedHotspot.longitude)}
+                onClose={this.closePopup}
+              >
+                <div>
+                  <p>
+                    <b>Location:</b> {this.state.selectedHotspot.location}
+                    {", "}
+                    {this.state.selectedHotspot.city}
+                  </p>
+                  <p>
+                    <b>Type:</b> {this.state.selectedHotspot.location_t}
+                  </p>
+                </div>
+              </Popup>
+            ) : null}
           </ReactMapGL>
           <div>
             Icons made by{" "}

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import "./App.css";
-import ReactModal from "react-modal";
-import { thisTypeAnnotation } from "@babel/types";
+import ModalComponent from "./components/ModalComponent";
 
 class App extends Component {
   state = {
@@ -15,21 +14,23 @@ class App extends Component {
     },
     wifiHotspots: [],
     userLocation: {},
-    selectedHotspot: null
+    selectedHotspot: null,
+    showModal: false,
+    filterHotspots: [],
+    showAllHotspots: true
   };
 
   componentDidMount() {
     this.fetchStationAPI();
+    this.setLocationState();
   }
 
   fetchStationAPI = () => {
     fetch("https://data.cityofnewyork.us/resource/yjub-udmw.json")
       .then(res => res.json())
       .then(hotspots => {
-        let indoors = this.indoorWifi(hotspots);
         let freeWifi = this.filterFreeWifi(hotspots);
-        let freeObj = this.sortType(hotspots);
-        console.log(freeObj);
+        console.log(this.sortType(freeWifi));
         this.setState({
           wifiHotspots: freeWifi
         });
@@ -47,53 +48,70 @@ class App extends Component {
     });
     return obj;
   };
-
-  indoorWifi = hotspots => {
-    return hotspots.filter(spot => {
-      return (
-        spot.location_t !== "Outdoor Kiosk" && spot.location_t !== "Outdoor"
-      );
-    });
-  };
-
-  setUserLocation = () => {
+  setLocationState = () => {
     navigator.geolocation.getCurrentPosition(position => {
       let setUserLocation = {
         lat: position.coords.latitude,
         long: position.coords.longitude
       };
-      let newViewport = {
-        height: "100vh",
-        width: "100vw",
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        zoom: 13
-      };
       this.setState({
-        viewport: newViewport,
         userLocation: setUserLocation
       });
     });
   };
+  setUserLocation = () => {
+    let newViewport = {
+      height: "100vh",
+      width: "100vw",
+      latitude: this.state.userLocation.lat,
+      longitude: this.state.userLocation.long,
+      zoom: 13
+    };
+    this.setState({
+      viewport: newViewport
+    });
+  };
 
   loadWifiMarkers = () => {
-    return this.state.wifiHotspots.map(spot => {
-      return (
-        <Marker
-          key={spot.objectid}
-          latitude={parseFloat(spot.latitude)}
-          longitude={parseFloat(spot.longitude)}
-        >
-          <img
-            onClick={() => {
-              this.setSelectedHotspot(spot);
-            }}
-            src="/wifiturqiose.svg"
-            alt=""
-          />
-        </Marker>
-      );
-    });
+    if (this.state.showAllHotspots === true) {
+      return this.state.wifiHotspots.map(spot => {
+        return (
+          <Marker
+            key={spot.objectid}
+            latitude={parseFloat(spot.latitude)}
+            longitude={parseFloat(spot.longitude)}
+          >
+            <img
+              className="hotspot-icon"
+              onClick={() => {
+                this.setSelectedHotspot(spot);
+              }}
+              src="/wifiturqiose.svg"
+              alt=""
+            />
+          </Marker>
+        );
+      });
+    } else {
+      return this.state.filterHotspots.map(spot => {
+        return (
+          <Marker
+            key={spot.objectid}
+            latitude={parseFloat(spot.latitude)}
+            longitude={parseFloat(spot.longitude)}
+          >
+            <img
+              className="hotspot-icon"
+              onClick={() => {
+                this.setSelectedHotspot(spot);
+              }}
+              src="/wifiturqiose.svg"
+              alt=""
+            />
+          </Marker>
+        );
+      });
+    }
   };
 
   filterFreeWifi = hotspots => {
@@ -114,13 +132,50 @@ class App extends Component {
     });
   };
 
+  handleModalToggle = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  };
+
+  filterSelectedHotspots = selectionsObject => {
+    let selectedHotspots = [];
+
+    for (let key in selectionsObject) {
+      if (selectionsObject[key] === true) {
+        let filtered = this.state.wifiHotspots.filter(spot => {
+          return spot.location_t === key;
+        });
+        selectedHotspots = selectedHotspots.concat(filtered);
+      }
+    }
+    console.log(selectedHotspots);
+    return selectedHotspots;
+  };
+
+  setModalFilterState = checkbox => {
+    let filteredHotspots = this.filterSelectedHotspots(checkbox);
+    this.setState({ filterHotspots: filteredHotspots, showAllHotspots: false });
+  };
+
+  handleAllHotspots = () => {
+    console.log("clicked");
+    this.setState({
+      showAllHotspots: true
+    });
+  };
+
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <button onClick={this.setUserLocation}>My Location</button>
-        <div className="information-modal">
-          <p>This will hold the information about the type of hotspot it is.</p>
-        </div>
+        <ModalComponent
+          handleAllHotspots={this.handleAllHotspots}
+          handleModalObjectSubmit={this.setModalFilterState}
+          modalToggleState={this.state.showModal}
+          handleModalToggle={this.handleModalToggle}
+        />
         <div className="map">
           <ReactMapGL
             {...this.state.viewport}
@@ -177,3 +232,7 @@ class App extends Component {
 
 export default App;
 // <div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+{
+  /* <div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
+}

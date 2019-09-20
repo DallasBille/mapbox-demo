@@ -30,13 +30,13 @@ class App extends Component {
       .then(res => res.json())
       .then(hotspots => {
         let freeWifi = this.filterFreeWifi(hotspots);
-        console.log(this.sortType(freeWifi));
         this.setState({
           wifiHotspots: freeWifi
         });
       });
   };
-
+  // This is a function that servers no purpose to the programs, I used it to see how many
+  //  hotspots of each type there are.
   sortType = hots => {
     let obj = {};
     hots.forEach(spot => {
@@ -71,7 +71,8 @@ class App extends Component {
       viewport: newViewport
     });
   };
-
+  // This function conditionally renders either the filteredWifi (which a user selects with the
+  //  checkboxes in the modal, or all of the hotSpots)
   loadWifiMarkers = () => {
     if (this.state.showAllHotspots === true) {
       return this.state.wifiHotspots.map(spot => {
@@ -125,19 +126,20 @@ class App extends Component {
       selectedHotspot: object
     });
   };
-
+  // closes our popup for each hopspot
   closePopup = () => {
     this.setState({
       selectedHotspot: null
     });
   };
 
+  //  toggles our show modal
   handleModalToggle = () => {
     this.setState({
       showModal: !this.state.showModal
     });
   };
-
+  // function filters all hotspots with ones user selects in the checkbox in modal.
   filterSelectedHotspots = selectionsObject => {
     let selectedHotspots = [];
 
@@ -152,24 +154,41 @@ class App extends Component {
     return selectedHotspots;
   };
 
+  // conditionally renders selected hotspots, if a user unclicks all checkboxes,
+  //  then render all hotspots.
   setModalFilterState = checkbox => {
     let filteredHotspots = this.filterSelectedHotspots(checkbox);
-    this.setState({ filterHotspots: filteredHotspots, showAllHotspots: false });
+    if (filteredHotspots.length > 0) {
+      this.setState({
+        filterHotspots: filteredHotspots,
+        showAllHotspots: false
+      });
+    } else {
+      this.setState({
+        filterHotspots: [],
+        showAllHotspots: true
+      });
+    }
     this.handleModalToggle();
   };
 
   handleAllHotspots = () => {
-    console.log("clicked");
     this.setState({
       showAllHotspots: true
     });
   };
 
   render() {
-    console.log(this.state);
     return (
       <div className="App">
-        <button onClick={this.setUserLocation}>My Location</button>
+        <div className="information-icon-div">
+          <img
+            className="information-icon"
+            src="/internet.svg"
+            alt="my location"
+            onClick={this.setUserLocation}
+          />
+        </div>
         <ModalComponent
           handleAllHotspots={this.handleAllHotspots}
           handleModalObjectSubmit={this.setModalFilterState}
@@ -236,4 +255,7 @@ export default App;
 
 {
   /* <div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
+}
+{
+  /* <div>Icons made by <a href="https://www.flaticon.com/authors/chanut" title="Chanut">Chanut</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
 }

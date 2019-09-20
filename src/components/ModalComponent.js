@@ -28,12 +28,12 @@ export default class ModalComponent extends React.Component {
       }
     }));
   };
-
+  // programaticall create a checkbox from OPTIONS variable.
   createCheckBox = () => {
     return this.OPTIONS.map(option => {
       let checkedStatus = this.state.checkboxes[option];
       return (
-        <p>
+        <p key={option}>
           <input
             checked={checkedStatus}
             onChange={this.handleCheckboxChange}
@@ -46,7 +46,7 @@ export default class ModalComponent extends React.Component {
       );
     });
   };
-
+  // runs when All Hotspots button is pushed.
   handleAllHotspotsAndCloseModal = () => {
     this.props.handleModalToggle();
     this.props.handleAllHotspots();
@@ -59,7 +59,7 @@ export default class ModalComponent extends React.Component {
           className="information-icon"
           onClick={this.props.handleModalToggle}
           src="/info.svg"
-          alt="information"
+          alt="pereferences"
         />
         <ReactModal ariaHideApp={false} isOpen={this.props.modalToggleState}>
           <p>

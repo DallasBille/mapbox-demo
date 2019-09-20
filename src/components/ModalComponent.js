@@ -31,9 +31,11 @@ export default class ModalComponent extends React.Component {
 
   createCheckBox = () => {
     return this.OPTIONS.map(option => {
+      let checkedStatus = this.state.checkboxes[option];
       return (
         <p>
           <input
+            checked={checkedStatus}
             onChange={this.handleCheckboxChange}
             type="checkbox"
             name={option}
@@ -49,8 +51,6 @@ export default class ModalComponent extends React.Component {
     this.props.handleModalToggle();
     this.props.handleAllHotspots();
   };
-
-  handleCheckBoxSubmitAndCloseModal = () => {};
 
   render() {
     return (

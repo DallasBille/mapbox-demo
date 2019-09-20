@@ -149,13 +149,13 @@ class App extends Component {
         selectedHotspots = selectedHotspots.concat(filtered);
       }
     }
-    console.log(selectedHotspots);
     return selectedHotspots;
   };
 
   setModalFilterState = checkbox => {
     let filteredHotspots = this.filterSelectedHotspots(checkbox);
     this.setState({ filterHotspots: filteredHotspots, showAllHotspots: false });
+    this.handleModalToggle();
   };
 
   handleAllHotspots = () => {
@@ -197,6 +197,7 @@ class App extends Component {
                 latitude={parseFloat(this.state.selectedHotspot.latitude)}
                 longitude={parseFloat(this.state.selectedHotspot.longitude)}
                 onClose={this.closePopup}
+                onRequestClose={this.closePopup}
               >
                 <div>
                   <p>

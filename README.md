@@ -35,7 +35,5 @@ Feel free to download, run and make your own edits.
 
 ## To-Do's:
 
-1. Interactive Markers.
-2. More information than just wifi location.
-3. A bit more accuracy when you zoom in.
-4. Ability to find the hotspot nearest your current location.
+1. Ability to find the hotspots nearest your current location.
+2. MapRender is horribly slow, find a faster alternative/solution

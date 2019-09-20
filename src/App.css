@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 0;
 }
 
 .App-logo {
@@ -49,19 +50,39 @@ h1 {
   text-decoration: underline;
 }
 
-img {
-  width: 18px;
-  height: 18px;
+.hotspot-icon {
+  position: relative;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
 }
 
 .mapboxgl-popup-content {
   cursor: auto;
 }
 
-/* .information-key {
-  border-radius: 4px;
-  margin: 10px;
+.information-icon {
+  padding-top: 2px;
+  width: 50px;
+  height: 50px;
+}
+.information-icon-div {
+  cursor: pointer;
+  margin: 20px;
+  border-radius: 50%;
   background-color: white;
-  width: 100px;
-  height: 200px;
-} */
+  width: 54px;
+  height: 54px;
+}
+
+.modal-close {
+  width: 40px;
+  height: 20px;
+}
+
+.location-icon {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  z-index: 2;
+}

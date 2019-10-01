@@ -178,14 +178,6 @@ class App extends Component {
     });
   };
 
-  // {Object.keys(this.state.userLocation).length !== 0 ? (
-  //   <Marker
-  //     latitude={this.state.userLocation.lat}
-  //     longitude={this.state.userLocation.long}
-  //   >
-  //     <img className="location-icon" src="/location-icon.svg" />
-  //   </Marker>
-  // ) : null}
   render() {
     return (
       <div className="App">
@@ -246,20 +238,3 @@ class App extends Component {
 }
 
 export default App;
-// <div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-
-{
-  /* <div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
-}
-{
-  /* <div>Icons made by <a href="https://www.flaticon.com/authors/chanut" title="Chanut">Chanut</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
-}
-
-// <div className="information-icon-div">
-//   <img
-//     className="information-icon"
-//     src="/internet.svg"
-//     alt="my location"
-//     onClick={this.setUserLocation}
-//   />
-// </div>

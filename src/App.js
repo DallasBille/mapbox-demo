@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
+import ReactMapGL, { Marker, Popup, GeolocateControl } from "react-map-gl";
 import "./App.css";
 import ModalComponent from "./components/ModalComponent";
 
@@ -178,38 +178,35 @@ class App extends Component {
     });
   };
 
+  // {Object.keys(this.state.userLocation).length !== 0 ? (
+  //   <Marker
+  //     latitude={this.state.userLocation.lat}
+  //     longitude={this.state.userLocation.long}
+  //   >
+  //     <img className="location-icon" src="/location-icon.svg" />
+  //   </Marker>
+  // ) : null}
   render() {
     return (
       <div className="App">
-        <div className="information-icon-div">
-          <img
-            className="information-icon"
-            src="/internet.svg"
-            alt="my location"
-            onClick={this.setUserLocation}
-          />
-        </div>
-        <ModalComponent
-          handleAllHotspots={this.handleAllHotspots}
-          handleModalObjectSubmit={this.setModalFilterState}
-          modalToggleState={this.state.showModal}
-          handleModalToggle={this.handleModalToggle}
-        />
-        <div className="map">
+        <div>
           <ReactMapGL
+            className="map"
             {...this.state.viewport}
             mapStyle="mapbox://styles/mapbox/outdoors-v11"
             onViewportChange={viewport => this.setState({ viewport })}
             mapboxApiAccessToken="pk.eyJ1IjoiZGFsbGFzYmlsbGUiLCJhIjoiY2p6OHR1aGhoMDZnZDNjbXB2ZWZlcXFudCJ9.gjjYkOkTtA-Qe1jhbvF2gQ"
           >
-            {Object.keys(this.state.userLocation).length !== 0 ? (
-              <Marker
-                latitude={this.state.userLocation.lat}
-                longitude={this.state.userLocation.long}
-              >
-                <img className="location-icon" src="/location-icon.svg" />
-              </Marker>
-            ) : null}
+            <GeolocateControl
+              positionOptions={{ enableHighAccuracy: false }}
+              trackUserLocation={true}
+            />
+            <ModalComponent
+              handleAllHotspots={this.handleAllHotspots}
+              handleModalObjectSubmit={this.setModalFilterState}
+              modalToggleState={this.state.showModal}
+              handleModalToggle={this.handleModalToggle}
+            />
             {this.loadWifiMarkers()}
             {this.state.selectedHotspot !== null ? (
               <Popup
@@ -231,19 +228,17 @@ class App extends Component {
               </Popup>
             ) : null}
           </ReactMapGL>
-          <div>
-            Icons made by{" "}
-            <a
-              href="https://www.flaticon.com/authors/smashicons"
-              title="Smashicons"
-            >
-              Smashicons
-            </a>{" "}
-            from{" "}
-            <a href="https://www.flaticon.com/" title="Flaticon">
-              www.flaticon.com
-            </a>
-          </div>
+          Icons made by{" "}
+          <a
+            href="https://www.flaticon.com/authors/smashicons"
+            title="Smashicons"
+          >
+            Smashicons
+          </a>{" "}
+          from{" "}
+          <a href="https://www.flaticon.com/" title="Flaticon">
+            www.flaticon.com
+          </a>
         </div>
       </div>
     );
@@ -259,3 +254,12 @@ export default App;
 {
   /* <div>Icons made by <a href="https://www.flaticon.com/authors/chanut" title="Chanut">Chanut</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div> */
 }
+
+// <div className="information-icon-div">
+//   <img
+//     className="information-icon"
+//     src="/internet.svg"
+//     alt="my location"
+//     onClick={this.setUserLocation}
+//   />
+// </div>

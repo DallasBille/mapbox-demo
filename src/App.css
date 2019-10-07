@@ -86,3 +86,7 @@ h1 {
   height: 25px;
   z-index: 2;
 }
+.mapboxgl-ctrl-group {
+  width: 30px;
+  margin: 10px 0 0 10px;
+}

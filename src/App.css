@@ -68,7 +68,7 @@ h1 {
 }
 .information-icon-div {
   cursor: pointer;
-  margin: 20px;
+  margin: 50px 0px 0px 5px;
   border-radius: 50%;
   background-color: white;
   width: 54px;

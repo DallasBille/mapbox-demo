@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import ReactMapGL, { Marker, Popup, GeolocateControl } from "react-map-gl";
+import ReactMapGL, {
+  Marker,
+  Popup,
+  GeolocateControl,
+  NavigationControl
+} from "react-map-gl";
 import "./App.css";
 import ModalComponent from "./components/ModalComponent";
 
@@ -193,6 +198,7 @@ class App extends Component {
               positionOptions={{ enableHighAccuracy: false }}
               trackUserLocation={true}
             />
+            <NavigationControl />
             <ModalComponent
               handleAllHotspots={this.handleAllHotspots}
               handleModalObjectSubmit={this.setModalFilterState}
